@@ -1,0 +1,39 @@
+#!/usr/bin/env groovy 
+
+
+// Read name format is:
+// @m64044_200216_052200/10/0_7188
+
+fastqfile = args[0]
+readlengths = new ArrayList()
+br = new BufferedReader(new FileReader(args[0]))
+line = br.readLine()
+while (line != null){
+	//if(line.startsWith("@")){
+        //(runtime_barcode,ZMW_hole,subread_region) = line.split("/")
+        //(sstart,send) = subread_region.split("_")
+        //readlength = (send as int) - (sstart as int)
+        //readlengths.add(readlength)
+        //}
+        //}
+    line = br.readLine()
+}
+
+println("Total bases: ${readlengths.sum()}")
+
+// time ./pacbiolens.gv vespula_germanica_first1Mlines_subreads.fastq
+// Total bases: {readlengths.sum()}
+// ./pacbiolens.gv vespula_germanica_first1Mlines_subreads.fastq  34.67s user 4.83s system 118% cpu 33.321 total
+
+// oughf.  Why? 
+// Removing everything in inside loop stil 29 s... so it sseems that eachLine itself is slow here...
+// Total bases: {readlengths.sum()}
+// ./pacbiolens.gv vespula_germanica_first1Mlines_subreads.fastq  29.94s user 4.83s system 109% cpu 31.738 total
+
+
+// Even the buffered reader br.readLine version is very slow:
+// time ./pacbiolens.gv vespula_germanica_first1Mlines_subreads.fastq
+// Total bases: null
+// ./pacbiolens.gv vespula_germanica_first1Mlines_subreads.fastq  27.07s user 4.87s system 109% cpu 29.281 total
+
+// File I/O is bad... whaaaa

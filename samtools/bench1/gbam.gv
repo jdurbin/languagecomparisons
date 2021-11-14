@@ -1,0 +1,35 @@
+#!/usr/bin/env groovy 
+
+import htsjdk.samtools.*
+
+bamFileName = args[0]
+
+reader = SamReaderFactory.makeDefault()
+	.validationStringency(ValidationStringency.SILENT)
+	.open(new File(bamFileName));
+
+
+count=0
+for (final SAMRecord align : reader) {
+	if (align.getMappingQuality() > 20){
+		//println "${align.getReadName()}\t${align.getReadLength()}"
+		count++
+	}
+}
+
+print "Count: "+count
+
+
+// Test for quality > 50 and write out name/quality
+// 7.43 seconds. 
+
+// Test for quality > 20 and write out name/quality
+// 7.43 seconds. 
+
+// With java style for() instead of each{}
+// real	0m6.995s
+
+
+// On larger file: testdata/wtdbg2_ont40x_vs_haplotigs_map-ont.bam
+// Output size: 1192853
+// real	0m33.851s

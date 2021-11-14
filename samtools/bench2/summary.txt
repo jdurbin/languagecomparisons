@@ -1,0 +1,29 @@
+
+Curious, over the weekend I did QND test of PySam (python) vs 
+SeqLib (C++) vs htsjdk (java/Groovy).   The test examined each alignment in 
+a bam file, if the quality of the alignment was >20 it changed the read name 
+to upper case, then wrote those alignments back out to a new BAM file.    
+I wanted to read, write, and access some fields, basically.   My expectation 
+was C++ > java > groovy > python. Which would certainly be the case if the 
+functions were written natively.   Boty SeqLib and pysam are just wrappers 
+for htslib in C, htsjdk is a native java implementation and is the foundation 
+for Picard, so there are basically two implementations here accessed through
+different wrappers.  
+
+Here are the results on a 1,288,355 alignment file: 
+
+SeqLib/htslib: 			1m  7 sec. 
+PySam/htslib: 			1m  9 sec.
+java/htsjdk:  			1m 23 sec. 
+groovy/htsjdk: 			1m 25 sec.
+
+Tested on Macbook Pro, 2.7GHz i5, 8GB 1867MHz DDR3.  
+
+The uniformity of running time suggests that the main overhead is 
+decompressing and compressing the file and that stuffing datastructures
+is very small compared to that. 
+
+
+
+
+

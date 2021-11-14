@@ -1,0 +1,103 @@
+Records out: 1,288,355
+
+
+============================================================
+2021 tests. 
+============================================================
+
+# time ./pybam.py testdata/PC-HLA-EG4.bam
+# Count:  5658514
+# ./pybam.py testdata/PC-HLA-EG4.bam  8.91s user 0.26s system 85% cpu 10.760 total
+
+# time ./cppbam testdata/PC-HLA-EG4.bam
+# Count: 5658514
+# ./cppbam testdata/PC-HLA-EG4.bam  12.26s user 0.27s system 99% cpu 12.601 total
+
+# time ./juliabam.jl testdata/PC-HLA-EG4.bam
+# 5658514
+# ./juliabam.jl testdata/PC-HLA-EG4.bam  15.60s user 1.03s system 100% cpu 16.629 total
+
+
+
+=========================
+
+#  time ./pybam.py testdata/c6_40X_HG002.bam
+# [W::hts_idx_load2] The index file is older than the data file: testdata/c6_40X_HG002.bam.bai
+# Count:  42950015
+# ./pybam.py testdata/c6_40X_HG002.bam  45.57s user 1.46s system 99% cpu 47.326 total
+
+# Supposedly more efficient version.  I guess it shaved 6.6 seconds, or about 10% of running time. 
+# time ./juliabam2.jl testdata/c6_40X_HG002.bam
+# 42950015
+# ./juliabam2.jl  61.56s user 1.76s system 99% cpu 1:03.36 total
+
+
+# time ./juliabam.jl testdata/c6_40X_HG002.bam
+# 42950015
+# ./juliabam.jl  68.21s user 4.01s system 99% cpu 1:12.32 total
+
+
+
+
+
+
+
+
+
+
+============================================================
+TEST1
+============================================================
+
+======== HSTLIB ============
+C-language library with C++ wrapper or Python wrapper. 
+This test reads bam and writes to a text file names of queries with quality > 20
+along with the size of these queries. 
+
+time ./cppbam testdata/bigger.bam > output/cpp.out
+real	0m10.338s
+
+time ./pybam.py testdata/bigger.bam > output/python.out
+real	0m14.587s
+
+
+======= PURE PYTHON LIBRARY =======
+LOL 
+
+
+======= HSTJDK A PURE JAVA LIBRARY =======
+Using the pure java library Picard is based on:
+
+time java jbam testdata/bigger.bam > output/java.out
+real	0m23.714s
+
+time ./gbam.groovy testdata/bigger.bam > output/groovy.out
+real	0m34.770s
+
+
+============================================================
+TEST2
+============================================================
+How much is IO?   Cut out bulk of IO. 
+This program reads the bam file, counts the number of queries with quality > 20
+and outputs that count. 
+
+time ./cppbam testdata/bigger.bam > output/cpp.out
+real	0m9.086s
+
+time java jbam testdata/bigger.bam > output/java.out
+real	0m9.994s
+
+time ./gbam.groovy testdata/bigger.bam > output/groovy.out
+real	0m11.872s
+
+time ./pybam.py testdata/bigger.bam > output/python.out
+real	0m12.167s
+
+============================================================
+TEST3
+============================================================
+This program reads the bam file, changes the name of each read to upper case,
+writes out a new bam file. 
+
+

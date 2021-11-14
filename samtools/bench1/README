@@ -1,0 +1,59 @@
+Records out: 1,288,355
+
+
+============================================================
+TEST1
+============================================================
+
+======== HSTLIB ============
+C-language library with C++ wrapper or Python wrapper. 
+This test reads bam and writes to a text file names of queries with quality > 20
+along with the size of these queries. 
+
+time ./cppbam testdata/bigger.bam > output/cpp.out
+real	0m10.338s
+
+time ./pybam.py testdata/bigger.bam > output/python.out
+real	0m14.587s
+
+
+======= PURE PYTHON LIBRARY =======
+LOL 
+
+
+======= HSTJDK A PURE JAVA LIBRARY =======
+Using the pure java library Picard is based on:
+
+time java jbam testdata/bigger.bam > output/java.out
+real	0m23.714s
+
+time ./gbam.groovy testdata/bigger.bam > output/groovy.out
+real	0m34.770s
+
+
+============================================================
+TEST2
+============================================================
+How much is IO?   Cut out bulk of IO. 
+This program reads the bam file, counts the number of queries with quality > 20
+and outputs that count. 
+
+time ./cppbam testdata/bigger.bam > output/cpp.out
+real	0m9.086s
+
+time java jbam testdata/bigger.bam > output/java.out
+real	0m9.994s
+
+time ./gbam.groovy testdata/bigger.bam > output/groovy.out
+real	0m11.872s
+
+time ./pybam.py testdata/bigger.bam > output/python.out
+real	0m12.167s
+
+============================================================
+TEST3
+============================================================
+This program reads the bam file, changes the name of each read to upper case,
+writes out a new bam file. 
+
+
